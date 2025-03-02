@@ -1,0 +1,29 @@
+server:
+  port: 8087
+  servlet:
+    context-path: /post-svc
+
+spring:
+  application:
+    name: post-service
+  datasource:
+    url: ${DATABASE_URL}
+    username: ${DATABASE_USERNAME}
+    password: ${DATABASE_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+  cache:
+    type: redis
+  data:
+    redis:
+      url: redis://:${REDIS_PASSWORD}@${REDIS_HOST}:${REDIS_PORT}
+      timeout: 200000ms
+app:
+  services:
+    file: ${FEIGN_CLIENT_URL}
