@@ -1,11 +1,11 @@
 package org.shadcn.postsvc.service.impl;
 
-import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import jakarta.transaction.Transactional;
+
 import org.shadcn.postsvc.dto.request.CreateCommentRequest;
 import org.shadcn.postsvc.dto.request.UpdateCommentRequest;
 import org.shadcn.postsvc.dto.response.CommentResponse;
@@ -75,7 +75,8 @@ public class CommentService implements ICommentService {
     @Override
     @Transactional
     public void updateComment(Long commentId, UpdateCommentRequest request) {
-        Comment comment = commentRepository.findById(commentId)
+        Comment comment = commentRepository
+                .findById(commentId)
                 .orElseThrow(() -> new AppException(ErrorCode.COMMENT_NOT_EXISTED));
 
         Date now = new Date();
@@ -94,7 +95,8 @@ public class CommentService implements ICommentService {
 
     @Override
     public void deleteComment(Long commentId) {
-        Comment comment = commentRepository.findById(commentId)
+        Comment comment = commentRepository
+                .findById(commentId)
                 .orElseThrow(() -> new AppException(ErrorCode.COMMENT_NOT_EXISTED));
         markAsDeleted(comment);
         commentRepository.save(comment);

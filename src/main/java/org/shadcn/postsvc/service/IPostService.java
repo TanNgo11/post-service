@@ -5,7 +5,10 @@ import org.shadcn.postsvc.dto.request.UpdatePostRequest;
 import org.shadcn.postsvc.dto.response.PageResponse;
 import org.shadcn.postsvc.dto.response.PostDetailResponse;
 import org.shadcn.postsvc.dto.response.PostResponse;
+import org.shadcn.postsvc.entity.Tag;
 import org.shadcn.postsvc.enums.Status;
+
+import java.util.*;
 
 public interface IPostService {
 
@@ -24,4 +27,6 @@ public interface IPostService {
     void increaseHotScore(Long postId, double score);
 
     void changePostStatus(Long postId, Status status);
+
+    PageResponse<PostResponse> findByTags(Set<String> tag, int current, int pageSize);
 }

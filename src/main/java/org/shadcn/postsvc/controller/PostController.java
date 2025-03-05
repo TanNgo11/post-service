@@ -8,6 +8,7 @@ import org.shadcn.postsvc.dto.response.ApiResponse;
 import org.shadcn.postsvc.dto.response.PageResponse;
 import org.shadcn.postsvc.dto.response.PostDetailResponse;
 import org.shadcn.postsvc.dto.response.PostResponse;
+import org.shadcn.postsvc.entity.Tag;
 import org.shadcn.postsvc.enums.Status;
 import org.shadcn.postsvc.service.IPostService;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +17,8 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+
+import java.util.Set;
 
 @RestController
 @RequestMapping(API_V1_POSTS)
@@ -74,5 +77,21 @@ public class PostController {
     public ApiResponse<Void> changePostStatus(@PathVariable Long postId, @RequestParam Status status) {
         postService.changePostStatus(postId, status);
         return ApiResponse.success(null);
+    }
+    
+    @GetMapping("/find-by-tags")
+    public ApiResponse<PageResponse<PostResponse>> findByTags(
+            @RequestParam Set<String> tags,
+            @RequestParam(defaultValue = "1", required = false) int current,
+            @RequestParam(defaultValue = "10", required = false) int pageSize) {
+        return ApiResponse.success(postService.findByTags(tags, current, pageSize));
+    }
+    
+    @GetMapping("/find-by-author/{authorId}")
+    public ApiResponse<PageResponse<PostResponse>> findByAuthor(
+            @PathVariable Long authorId,
+            @RequestParam(defaultValue = "1", required = false) int current,
+            @RequestParam(defaultValue = "10", required = false) int pageSize) {
+        return ApiResponse.success(postService.getAllPostsByAuthor(authorId, current, pageSize));
     }
 }
