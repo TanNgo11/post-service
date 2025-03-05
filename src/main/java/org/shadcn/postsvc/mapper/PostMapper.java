@@ -1,34 +1,30 @@
 package org.shadcn.postsvc.mapper;
 
+import java.util.List;
+
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.Named;
+import org.mapstruct.MappingTarget;
 import org.shadcn.postsvc.dto.request.CreatePostRequest;
+import org.shadcn.postsvc.dto.request.UpdatePostRequest;
+import org.shadcn.postsvc.dto.response.PostDetailResponse;
 import org.shadcn.postsvc.dto.response.PostResponse;
+import org.shadcn.postsvc.dto.response.TagResponse;
 import org.shadcn.postsvc.entity.Post;
 import org.shadcn.postsvc.entity.Tag;
-
-import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface PostMapper {
 
-    @Mapping(target = "hotScore", source = "hotScore")
-    @Mapping(target = "tags", source = "tags", qualifiedByName = "mapTags")
-    @Mapping(target = "author", source = "userId", qualifiedByName = "toAuthorInfo")
+    @Mapping(target = "tags", source = "tags")
     PostResponse toPostResponse(Post post);
 
+    List<TagResponse> toTagResponseList(List<Tag> tags);
 
-    @Mapping(target = "id", ignore = true)
-    @Mapping(target = "slug", ignore = true)
-    @Mapping(target = "comments", ignore = true)
-    @Mapping(target = "reactions", ignore = true)
-    @Mapping(target = "tags", source = "tags", qualifiedByName = "mapTags")
-    Post toEntity(CreatePostRequest request);
+    @Mapping(target = "tags", source = "tags")
+    PostDetailResponse toPostDetailResponse(Post post);
 
-    @Named("mapTags")
-    static List<Tag> mapTags(List<String> tagNames) {
-        return tagNames == null ? List.of() :
-                tagNames.stream().map(Tag::new).toList();    }
+    void updatePostFromRequest(UpdatePostRequest request, @MappingTarget Post post);
 
+    Post toPost(CreatePostRequest request);
 }

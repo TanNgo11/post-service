@@ -1,9 +1,9 @@
 package org.shadcn.postsvc.dto.request;
 
+import java.util.Set;
+
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-
-import java.util.List;
 
 @Data
 @Builder
@@ -13,6 +13,6 @@ import java.util.List;
 public class UpdatePostRequest {
     String title;
     String content;
-    List<String> tags;
+    Set<TagRequest> tags;
     Boolean allowComments;
 }

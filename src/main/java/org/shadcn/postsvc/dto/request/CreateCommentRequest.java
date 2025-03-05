@@ -1,5 +1,7 @@
 package org.shadcn.postsvc.dto.request;
 
+import jakarta.validation.constraints.NotBlank;
+
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -14,5 +16,8 @@ public class CreateCommentRequest {
 
     Long userId;
 
+    @NotBlank
     String content;
+
+    Long parentId;
 }

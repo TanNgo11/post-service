@@ -3,8 +3,6 @@ package org.shadcn.postsvc.dto.request;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-import java.util.List;
-
 @Data
 @Builder
 @NoArgsConstructor
@@ -12,4 +10,5 @@ import java.util.List;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class UpdateCommentRequest {
     String content;
+    String modifiedBy;
 }

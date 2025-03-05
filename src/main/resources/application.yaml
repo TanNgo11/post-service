@@ -26,4 +26,5 @@ spring:
       timeout: 200000ms
 app:
   services:
-    file: ${FEIGN_CLIENT_URL}
+    file: ${FEIGN_CLIENT_FILE_URL}
+    identity: ${FEIGN_CLIENT_IDENTITY_URL}

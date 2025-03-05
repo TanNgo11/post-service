@@ -1,11 +1,16 @@
 package org.shadcn.postsvc.entity;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import jakarta.persistence.*;
+
+import org.shadcn.postsvc.enums.Status;
+
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Getter
 @Setter
@@ -17,16 +22,15 @@ import java.util.List;
 @Table(name = "posts")
 public class Post extends BaseEntity {
 
-    @Column(nullable = false)
     Long userId;
 
-    @Column(nullable = false)
+    String fullName;
+
     String title;
 
-    @Column(unique = true, nullable = false)
     String slug;
 
-    @Column(nullable = false, columnDefinition = "TEXT")
+    @Column(columnDefinition = "TEXT")
     String content;
 
     Boolean allowComments = true;
@@ -34,7 +38,7 @@ public class Post extends BaseEntity {
     double hotScore = 0.0;
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE, orphanRemoval = true)
-    private List<Comment> comments = new ArrayList<>();
+    List<Comment> comments = new ArrayList<>();
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<PostReaction> reactions = new ArrayList<>();
@@ -43,10 +47,8 @@ public class Post extends BaseEntity {
     @JoinTable(
             name = "post_tags",
             joinColumns = @JoinColumn(name = "post_id"),
-            inverseJoinColumns = @JoinColumn(name = "tag_id")
-    )
-    private List<Tag> tags = new ArrayList<>();
-
+            inverseJoinColumns = @JoinColumn(name = "tag_id"))
+    private Set<Tag> tags = new HashSet<>();
 
     @PrePersist
     @PreUpdate
@@ -66,4 +68,7 @@ public class Post extends BaseEntity {
                 .replaceAll("\\s+", "-")
                 .trim();
     }
+
+    @Enumerated(EnumType.STRING)
+    Status status;
 }
