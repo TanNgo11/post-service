@@ -1,6 +1,7 @@
 package org.shadcn.postsvc.service.impl;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -104,6 +105,14 @@ public class PostService implements IPostService {
         Post post = postRepository.findById(postId).orElseThrow(() -> new AppException(ErrorCode.POST_NOT_EXISTED));
         post.setStatus(status);
         postRepository.save(post);
+    }
+
+    @Override
+    public PageResponse<PostResponse> findByTags(Set<String> tag, int current, int pageSize) {
+        Pageable pageable = PageRequest.of(current - 1, pageSize);
+        Page<Post> postList = postRepository.findByTags(tag,  pageable);
+        
+        return ConvertToPaginationResponse.toPageResponse(postList, postMapper::toPostResponse, current);
     }
 
     private Set<Tag> handleTags(Set<TagRequest> tagRequests) {
