@@ -1,11 +1,12 @@
 package org.shadcn.postsvc.entity;
 
-import jakarta.persistence.*;
-import lombok.*;
-import lombok.experimental.FieldDefaults;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import jakarta.persistence.*;
+
+import lombok.*;
+import lombok.experimental.FieldDefaults;
 
 @Getter
 @Setter
@@ -16,16 +17,12 @@ import java.util.List;
 @Entity
 @Table(name = "tags")
 public class Tag extends BaseEntity {
-
     String name;
 
     @ManyToMany(mappedBy = "tags")
     List<Post> posts = new ArrayList<>();
 
-
     public Tag(String name) {
         this.name = name;
-        this.posts = new ArrayList<>();
     }
-
 }

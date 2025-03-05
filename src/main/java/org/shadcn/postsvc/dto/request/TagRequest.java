@@ -1,16 +1,13 @@
-package org.shadcn.postsvc.dto.response;
+package org.shadcn.postsvc.dto.request;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-import lombok.experimental.SuperBuilder;
 
-@Getter
-@Setter
-@SuperBuilder
+@Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class TagResponse {
-    Long id;
+public class TagRequest {
     String name;
 }

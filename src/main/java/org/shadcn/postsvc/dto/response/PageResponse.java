@@ -1,14 +1,14 @@
 package org.shadcn.postsvc.dto.response;
 
+import java.io.Serializable;
+import java.util.Collections;
+import java.util.List;
+
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
-
-import java.io.Serializable;
-import java.util.Collections;
-import java.util.List;
 
 @Data
 @NoArgsConstructor

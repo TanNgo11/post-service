@@ -1,6 +1,5 @@
 package org.shadcn.postsvc.repository.httpClient;
 
-
 import org.shadcn.postsvc.dto.response.ApiResponse;
 import org.shadcn.postsvc.dto.response.FileUploadResponse;
 import org.shadcn.postsvc.exception.RetreiveMessageErrorDecoder;
@@ -13,7 +12,10 @@ import org.springframework.web.multipart.MultipartFile;
 @FeignClient(
         name = "file-service",
         url = "${app.services.file}",
-        configuration = {org.shadcn.postsvc.config.AuthenticationRequestInterceptor.class, RetreiveMessageErrorDecoder.class})
+        configuration = {
+            org.shadcn.postsvc.config.AuthenticationRequestInterceptor.class,
+            RetreiveMessageErrorDecoder.class
+        })
 public interface FileServiceClient {
     @PostMapping(
             value = "/upload",

@@ -1,34 +1,26 @@
 package org.shadcn.postsvc.dto.response;
 
+import java.util.List;
+
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-import java.time.LocalDateTime;
-import java.util.List;
-
 @Getter
 @Setter
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class CommentResponse {
-
-    Long id;
+public class CommentResponse extends BaseDTOResponse {
 
     String content;
 
-    AuthorInfo author;
+    Long userId;
+
+    String fullName;
 
     Long postId;
 
     Long parentId;
 
-    LocalDateTime createdAt;
-
-    LocalDateTime updatedAt;
-
     List<CommentResponse> replies;
-
-    double hotScore;
 }

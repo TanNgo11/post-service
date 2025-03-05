@@ -1,27 +1,19 @@
 package org.shadcn.postsvc.mapper;
 
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.Named;
-import org.shadcn.postsvc.dto.request.CreatePostRequest;
-import org.shadcn.postsvc.dto.response.PostResponse;
-import org.shadcn.postsvc.entity.Post;
-import org.shadcn.postsvc.entity.Tag;
+import java.util.Set;
+import java.util.stream.Collectors;
 
-import java.util.List;
+import org.mapstruct.Mapper;
+import org.mapstruct.Named;
+import org.shadcn.postsvc.entity.Tag;
 
 @Mapper(componentModel = "spring")
 public interface TagMapper {
-
-    @Named("mapTags")
-    static List<Tag> mapTags(List<String> tagNames) {
-        return tagNames == null ? List.of() :
-                tagNames.stream().map(Tag::new).toList();
-    }
-
-    @Named("mapTagsToStrings")
-    static List<String> mapTagsToStrings(List<Tag> tags) {
-        return tags == null ? List.of() :
-                tags.stream().map(Tag::getName).toList();
+    @Named("mapStringsToTags")
+    default Set<Tag> mapStringsToTags(Set<String> tagNames) {
+        if (tagNames == null) {
+            return Set.of();
+        }
+        return tagNames.stream().map(Tag::new).collect(Collectors.toSet());
     }
 }

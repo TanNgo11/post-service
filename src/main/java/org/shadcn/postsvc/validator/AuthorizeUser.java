@@ -1,9 +1,5 @@
 package org.shadcn.postsvc.validator;
 
-
-import lombok.AccessLevel;
-import lombok.RequiredArgsConstructor;
-import lombok.experimental.FieldDefaults;
 import org.shadcn.postsvc.exception.AppException;
 import org.shadcn.postsvc.exception.ErrorCode;
 import org.shadcn.postsvc.service.IAuthenticationFacade;
@@ -11,6 +7,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.jwt.*;
 import org.springframework.stereotype.Component;
+
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)

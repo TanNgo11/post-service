@@ -1,10 +1,11 @@
 package org.shadcn.postsvc.dto.request;
 
+import java.util.Set;
+
 import jakarta.validation.constraints.NotBlank;
+
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-
-import java.util.List;
 
 @Data
 @Builder
@@ -15,10 +16,14 @@ public class CreatePostRequest {
     @NotBlank
     String title;
 
+    Long userId;
+
+    String fullName;
+
     @NotBlank
     String content;
 
-    List<String> tags;
+    Set<TagRequest> tags;
 
     Boolean allowComments;
 }

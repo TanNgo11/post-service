@@ -1,15 +1,16 @@
 package org.shadcn.postsvc.service.impl;
 
-import lombok.AccessLevel;
-import lombok.RequiredArgsConstructor;
-import lombok.experimental.FieldDefaults;
-import lombok.extern.slf4j.Slf4j;
+import java.util.List;
+
 import org.shadcn.postsvc.dto.request.CreatePostReactionRequest;
 import org.shadcn.postsvc.dto.response.PostReactionResponse;
 import org.shadcn.postsvc.service.IPostReactionService;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
 @RequiredArgsConstructor
@@ -22,9 +23,7 @@ public class PostReactionService implements IPostReactionService {
     }
 
     @Override
-    public void removeReaction(Long reactionId) {
-
-    }
+    public void removeReaction(Long reactionId) {}
 
     @Override
     public List<PostReactionResponse> getReactionsByUserId(Long userId) {

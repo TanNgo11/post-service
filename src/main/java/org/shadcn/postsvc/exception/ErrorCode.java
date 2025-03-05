@@ -1,8 +1,9 @@
 package org.shadcn.postsvc.exception;
 
-import lombok.Getter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
+
+import lombok.Getter;
 
 @Getter
 public enum ErrorCode {
@@ -30,7 +31,10 @@ public enum ErrorCode {
     ADMIN_NOT_EXISTED(1020, "Admin not existed", HttpStatus.BAD_REQUEST),
     STUDENT_NOT_EXISTED(1021, "Student not existed", HttpStatus.BAD_REQUEST),
     TEACHER_NOT_EXISTED(1022, "Teacher not existed", HttpStatus.BAD_REQUEST),
-    PHONE_EXISTED(1023, "Phone number existed", HttpStatus.BAD_REQUEST);
+    PHONE_EXISTED(1023, "Phone number existed", HttpStatus.BAD_REQUEST),
+    POST_NOT_EXISTED(1024, "Post not existed", HttpStatus.BAD_REQUEST),
+    COMMENT_NOT_EXISTED(1025, "Comment not existed", HttpStatus.BAD_REQUEST),
+    COMMENT_EXPIRED(1026, "Comment expired", HttpStatus.BAD_REQUEST);
 
     private final int code;
     private final String message;

@@ -1,21 +1,21 @@
 package org.shadcn.postsvc.service;
 
+import java.util.List;
+
 import org.shadcn.postsvc.dto.request.CreateCommentRequest;
 import org.shadcn.postsvc.dto.request.UpdateCommentRequest;
 import org.shadcn.postsvc.dto.response.CommentResponse;
 
-import java.util.List;
-
 public interface ICommentService {
-    CommentResponse createComment(CreateCommentRequest request); // Tạo comment
+    void createComment(CreateCommentRequest request);
 
-    CommentResponse getCommentById(Long commentId); // Lấy comment theo ID
+    CommentResponse getCommentById(Long commentId);
 
-    List<CommentResponse> getCommentsByPostId(Long postId); // Lấy comment theo bài viết
+    List<CommentResponse> getCommentsByPostId(Long postId);
 
-    List<CommentResponse> getRepliesByCommentId(Long parentId); // Lấy danh sách reply của 1 comment
+    List<CommentResponse> getRepliesByCommentId(Long parentId);
 
-    CommentResponse updateComment(Long commentId, UpdateCommentRequest request); // Cập nhật comment
+    void updateComment(Long commentId, UpdateCommentRequest request);
 
-    void deleteComment(Long commentId); // Xóa comment (soft delete)
+    void deleteComment(Long commentId);
 }

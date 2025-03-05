@@ -1,13 +1,15 @@
 package org.shadcn.postsvc.exception;
 
+import java.io.IOException;
+import java.io.InputStream;
+
+import org.shadcn.postsvc.dto.request.ExceptionMessage;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import feign.Response;
 import feign.codec.ErrorDecoder;
 import lombok.extern.slf4j.Slf4j;
-import org.shadcn.postsvc.dto.request.ExceptionMessage;
-
-import java.io.IOException;
-import java.io.InputStream;
 
 @Slf4j
 public class RetreiveMessageErrorDecoder implements ErrorDecoder {
@@ -16,7 +18,7 @@ public class RetreiveMessageErrorDecoder implements ErrorDecoder {
 
     @Override
     public Exception decode(String methodKey, Response response) {
-       ExceptionMessage message;
+        ExceptionMessage message;
         try (InputStream bodyIs = response.body().asInputStream()) {
             ObjectMapper mapper = new ObjectMapper();
             message = mapper.readValue(bodyIs, ExceptionMessage.class);
