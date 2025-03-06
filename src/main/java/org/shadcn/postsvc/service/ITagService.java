@@ -2,10 +2,11 @@ package org.shadcn.postsvc.service;
 
 import java.util.List;
 
+import org.shadcn.postsvc.dto.response.PageResponse;
 import org.shadcn.postsvc.dto.response.TagResponse;
 
 public interface ITagService {
-    List<TagResponse> getAllTags();
+    PageResponse<TagResponse> getAllTags(int current, int pageSize);
 
     TagResponse getTagByName(String name);
 }
