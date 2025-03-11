@@ -1,20 +1,14 @@
 package org.shadcn.postsvc.service.impl;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
-
 import jakarta.transaction.Transactional;
-
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
+import lombok.extern.slf4j.Slf4j;
 import org.shadcn.postsvc.dto.request.CreatePostRequest;
 import org.shadcn.postsvc.dto.request.TagRequest;
 import org.shadcn.postsvc.dto.request.UpdatePostRequest;
-import org.shadcn.postsvc.dto.response.PageResponse;
-import org.shadcn.postsvc.dto.response.PostDetailResponse;
-import org.shadcn.postsvc.dto.response.PostResponse;
-import org.shadcn.postsvc.dto.response.UserProfileResponse;
+import org.shadcn.postsvc.dto.response.*;
 import org.shadcn.postsvc.entity.Post;
 import org.shadcn.postsvc.entity.Tag;
 import org.shadcn.postsvc.enums.Status;
@@ -24,6 +18,7 @@ import org.shadcn.postsvc.mapper.PostMapper;
 import org.shadcn.postsvc.repository.PostRepository;
 import org.shadcn.postsvc.repository.TagRepository;
 import org.shadcn.postsvc.repository.httpClient.IdentityClient;
+import org.shadcn.postsvc.repository.httpClient.UploadFileService;
 import org.shadcn.postsvc.service.IPostService;
 import org.shadcn.postsvc.util.ConvertToPaginationResponse;
 import org.shadcn.postsvc.util.UserUtil;
@@ -31,11 +26,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
-import lombok.AccessLevel;
-import lombok.RequiredArgsConstructor;
-import lombok.experimental.FieldDefaults;
-import lombok.extern.slf4j.Slf4j;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -46,9 +43,10 @@ public class PostService implements IPostService {
     PostMapper postMapper;
     TagRepository tagRepository;
     IdentityClient identityClient;
+    UploadFileService uploadFileService;
 
     @Override
-    public void createPost(CreatePostRequest request) {
+    public void createPost(CreatePostRequest request, MultipartFile thumbnail) {
         Set<Tag> tags = handleTags(request.getTags());
         Post myPost = postMapper.toPost(request);
         UserProfileResponse author =
@@ -56,7 +54,17 @@ public class PostService implements IPostService {
         String fullName = UserUtil.buildFullNameWithBuilder(author);
         myPost.setFullName(fullName);
         myPost.setTags(tags);
+        String thumbnailUrl = uploadThumbnail(thumbnail);
+        myPost.setThumbnailUrl(thumbnailUrl);
         postRepository.save(myPost);
+    }
+
+    private String uploadThumbnail(MultipartFile thumbnail) {
+        if (thumbnail != null && !thumbnail.isEmpty()) {
+            FileUploadResponse uploadResponse = uploadFileService.uploadFile(thumbnail).getResult();
+            return uploadResponse.getDownloadUri();
+        }
+        return null;
     }
 
     @Override
@@ -110,12 +118,15 @@ public class PostService implements IPostService {
     @Override
     public PageResponse<PostResponse> findByTags(Set<String> tag, int current, int pageSize) {
         Pageable pageable = PageRequest.of(current - 1, pageSize);
-        Page<Post> postList = postRepository.findByTags(tag,  pageable);
-        
+        Page<Post> postList = postRepository.findByTags(tag, pageable);
+
         return ConvertToPaginationResponse.toPageResponse(postList, postMapper::toPostResponse, current);
     }
 
     private Set<Tag> handleTags(Set<TagRequest> tagRequests) {
+        if (tagRequests == null || tagRequests.isEmpty()) {
+            return Collections.emptySet(); // Trả về tập rỗng nếu không có tags
+        }
         Set<String> tagNames = tagRequests.stream().map(TagRequest::getName).collect(Collectors.toSet());
         Set<Tag> existingTags = tagRepository.findByNameIn(tagNames);
         Map<String, Tag> existingTagMap =
