@@ -16,7 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
             org.shadcn.postsvc.config.AuthenticationRequestInterceptor.class,
             RetreiveMessageErrorDecoder.class
         })
-public interface FileServiceClient {
+public interface UploadFileService {
     @PostMapping(
             value = "/upload",
             headers = "Content-Type: multipart/form-data",

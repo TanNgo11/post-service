@@ -34,7 +34,8 @@ public enum ErrorCode {
     PHONE_EXISTED(1023, "Phone number existed", HttpStatus.BAD_REQUEST),
     POST_NOT_EXISTED(1024, "Post not existed", HttpStatus.BAD_REQUEST),
     COMMENT_NOT_EXISTED(1025, "Comment not existed", HttpStatus.BAD_REQUEST),
-    COMMENT_EXPIRED(1026, "Comment expired", HttpStatus.BAD_REQUEST);
+    COMMENT_EXPIRED(1026, "Comment expired", HttpStatus.BAD_REQUEST),
+    FILE_INVALID(1027, "File invalid", HttpStatus.BAD_REQUEST);
 
     private final int code;
     private final String message;

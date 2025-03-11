@@ -5,14 +5,14 @@ import org.shadcn.postsvc.dto.request.UpdatePostRequest;
 import org.shadcn.postsvc.dto.response.PageResponse;
 import org.shadcn.postsvc.dto.response.PostDetailResponse;
 import org.shadcn.postsvc.dto.response.PostResponse;
-import org.shadcn.postsvc.entity.Tag;
 import org.shadcn.postsvc.enums.Status;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.*;
+import java.util.Set;
 
 public interface IPostService {
 
-    void createPost(CreatePostRequest request);
+    void createPost(CreatePostRequest request, MultipartFile thumbnail);
 
     PostDetailResponse getPostDetailById(Long postId);
 

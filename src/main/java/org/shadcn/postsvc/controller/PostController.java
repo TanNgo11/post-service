@@ -1,24 +1,26 @@
 package org.shadcn.postsvc.controller;
 
-import static org.shadcn.postsvc.constant.PathConstant.API_V1_POSTS;
-
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
+import lombok.extern.slf4j.Slf4j;
 import org.shadcn.postsvc.dto.request.CreatePostRequest;
 import org.shadcn.postsvc.dto.request.UpdatePostRequest;
 import org.shadcn.postsvc.dto.response.ApiResponse;
 import org.shadcn.postsvc.dto.response.PageResponse;
 import org.shadcn.postsvc.dto.response.PostDetailResponse;
 import org.shadcn.postsvc.dto.response.PostResponse;
-import org.shadcn.postsvc.entity.Tag;
 import org.shadcn.postsvc.enums.Status;
 import org.shadcn.postsvc.service.IPostService;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-
-import lombok.AccessLevel;
-import lombok.RequiredArgsConstructor;
-import lombok.experimental.FieldDefaults;
-import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Set;
+
+import static org.shadcn.postsvc.constant.PathConstant.API_V1_POSTS;
 
 @RestController
 @RequestMapping(API_V1_POSTS)
@@ -28,9 +30,11 @@ import java.util.Set;
 public class PostController {
     IPostService postService;
 
-    @PostMapping("/create-post")
-    ApiResponse<Void> createPost(@RequestBody CreatePostRequest request) {
-        postService.createPost(request);
+    @PostMapping(value = "create-post",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    ApiResponse<Void> createPost(@RequestPart String request, @RequestPart("thumbnail") MultipartFile thumbnail) throws JsonProcessingException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        CreatePostRequest  data = objectMapper.readValue(request, CreatePostRequest.class);
+        postService.createPost(data, thumbnail);
         return ApiResponse.success(null);
     }
 
@@ -78,7 +82,7 @@ public class PostController {
         postService.changePostStatus(postId, status);
         return ApiResponse.success(null);
     }
-    
+
     @GetMapping("/find-by-tags")
     public ApiResponse<PageResponse<PostResponse>> findByTags(
             @RequestParam Set<String> tags,
@@ -86,7 +90,7 @@ public class PostController {
             @RequestParam(defaultValue = "10", required = false) int pageSize) {
         return ApiResponse.success(postService.findByTags(tags, current, pageSize));
     }
-    
+
     @GetMapping("/find-by-author/{authorId}")
     public ApiResponse<PageResponse<PostResponse>> findByAuthor(
             @PathVariable Long authorId,
