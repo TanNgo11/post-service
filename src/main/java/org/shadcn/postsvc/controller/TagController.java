@@ -1,6 +1,5 @@
 package org.shadcn.postsvc.controller;
 
-import static org.shadcn.postsvc.constant.PathConstant.API_V1_POSTS;
 import static org.shadcn.postsvc.constant.PathConstant.API_V1_TAGS;
 
 import org.shadcn.postsvc.dto.response.ApiResponse;
@@ -31,5 +30,4 @@ public class TagController {
             @RequestParam(defaultValue = "10", required = false) Integer pageSize) {
         return ApiResponse.success(tagService.getAllTags(current, pageSize));
     }
-
 }

@@ -1,9 +1,8 @@
 package org.shadcn.postsvc.service.impl;
 
-import java.util.List;
-
 import org.shadcn.postsvc.dto.response.PageResponse;
 import org.shadcn.postsvc.dto.response.TagResponse;
+import org.shadcn.postsvc.entity.Tag;
 import org.shadcn.postsvc.mapper.TagMapper;
 import org.shadcn.postsvc.repository.TagRepository;
 import org.shadcn.postsvc.service.ITagService;
@@ -12,7 +11,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.shadcn.postsvc.entity.Tag;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -31,7 +29,7 @@ public class TagService implements ITagService {
     public PageResponse<TagResponse> getAllTags(int current, int pageSize) {
         Pageable pageable = PageRequest.of(current - 1, pageSize);
         Page<Tag> tags = tagRepository.findAll(pageable);
-        
+
         return ConvertToPaginationResponse.toPageResponse(tags, tagMapper::toTagResponse, current);
     }
 

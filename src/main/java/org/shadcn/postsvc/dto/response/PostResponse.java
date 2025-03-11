@@ -1,10 +1,10 @@
 package org.shadcn.postsvc.dto.response;
 
+import java.util.Set;
+
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
-
-import java.util.Set;
 
 @Getter
 @Setter

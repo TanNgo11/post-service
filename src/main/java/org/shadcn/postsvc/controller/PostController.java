@@ -1,11 +1,9 @@
 package org.shadcn.postsvc.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.AccessLevel;
-import lombok.RequiredArgsConstructor;
-import lombok.experimental.FieldDefaults;
-import lombok.extern.slf4j.Slf4j;
+import static org.shadcn.postsvc.constant.PathConstant.API_V1_POSTS;
+
+import java.util.Set;
+
 import org.shadcn.postsvc.dto.request.CreatePostRequest;
 import org.shadcn.postsvc.dto.request.UpdatePostRequest;
 import org.shadcn.postsvc.dto.response.ApiResponse;
@@ -18,9 +16,13 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Set;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
-import static org.shadcn.postsvc.constant.PathConstant.API_V1_POSTS;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
+import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequestMapping(API_V1_POSTS)
@@ -30,10 +32,12 @@ import static org.shadcn.postsvc.constant.PathConstant.API_V1_POSTS;
 public class PostController {
     IPostService postService;
 
-    @PostMapping(value = "create-post",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    ApiResponse<Void> createPost(@RequestPart String request, @RequestPart("thumbnail") MultipartFile thumbnail) throws JsonProcessingException {
+    @PostMapping(value = "create-post", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    ApiResponse<Void> createPost(
+            @RequestPart String request, @RequestPart(value = "thumbnail", required = false) MultipartFile thumbnail)
+            throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
-        CreatePostRequest  data = objectMapper.readValue(request, CreatePostRequest.class);
+        CreatePostRequest data = objectMapper.readValue(request, CreatePostRequest.class);
         postService.createPost(data, thumbnail);
         return ApiResponse.success(null);
     }

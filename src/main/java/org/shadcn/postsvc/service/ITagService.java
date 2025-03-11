@@ -1,7 +1,5 @@
 package org.shadcn.postsvc.service;
 
-import java.util.List;
-
 import org.shadcn.postsvc.dto.response.PageResponse;
 import org.shadcn.postsvc.dto.response.TagResponse;
 

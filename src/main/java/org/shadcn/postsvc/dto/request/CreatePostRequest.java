@@ -26,4 +26,6 @@ public class CreatePostRequest {
     Set<TagRequest> tags;
 
     Boolean allowComments;
+
+    Boolean isMobile;
 }
