@@ -1,10 +1,13 @@
 package org.shadcn.postsvc.service.impl;
 
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 import jakarta.transaction.Transactional;
-import lombok.AccessLevel;
-import lombok.RequiredArgsConstructor;
-import lombok.experimental.FieldDefaults;
-import lombok.extern.slf4j.Slf4j;
+
 import org.shadcn.postsvc.dto.request.CreatePostRequest;
 import org.shadcn.postsvc.dto.request.TagRequest;
 import org.shadcn.postsvc.dto.request.UpdatePostRequest;
@@ -25,14 +28,14 @@ import org.shadcn.postsvc.util.UserUtil;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
 @RequiredArgsConstructor
@@ -61,7 +64,8 @@ public class PostService implements IPostService {
 
     private String uploadThumbnail(MultipartFile thumbnail) {
         if (thumbnail != null && !thumbnail.isEmpty()) {
-            FileUploadResponse uploadResponse = uploadFileService.uploadFile(thumbnail).getResult();
+            FileUploadResponse uploadResponse =
+                    uploadFileService.uploadFile(thumbnail).getResult();
             return uploadResponse.getDownloadUri();
         }
         return null;
@@ -75,7 +79,7 @@ public class PostService implements IPostService {
 
     @Override
     public PageResponse<PostResponse> getAllPosts(int current, int pageSize) {
-        Pageable pageable = PageRequest.of(current - 1, pageSize);
+        Pageable pageable = PageRequest.of(current - 1, pageSize, Sort.by(Sort.Direction.DESC, "createdDate"));
         Page<Post> baseCourses = postRepository.findAll(pageable);
         return ConvertToPaginationResponse.toPageResponse(baseCourses, postMapper::toPostResponse, current);
     }

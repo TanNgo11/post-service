@@ -4,11 +4,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import org.mapstruct.Named;
-import org.shadcn.postsvc.dto.response.PostResponse;
 import org.shadcn.postsvc.dto.response.TagResponse;
-import org.shadcn.postsvc.entity.Post;
 import org.shadcn.postsvc.entity.Tag;
 
 @Mapper(componentModel = "spring")

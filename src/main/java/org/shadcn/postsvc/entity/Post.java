@@ -1,14 +1,16 @@
 package org.shadcn.postsvc.entity;
 
-import jakarta.persistence.*;
-import lombok.*;
-import lombok.experimental.FieldDefaults;
-import org.shadcn.postsvc.enums.Status;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import jakarta.persistence.*;
+
+import org.shadcn.postsvc.enums.Status;
+
+import lombok.*;
+import lombok.experimental.FieldDefaults;
 
 @Getter
 @Setter
@@ -32,6 +34,8 @@ public class Post extends BaseEntity {
     String content;
 
     Boolean allowComments = true;
+
+    Boolean isMobile = false;
 
     double hotScore = 0.0;
 
