@@ -20,4 +20,6 @@ public class PostDetailResponse extends BaseDTOResponse {
     Boolean allowComments;
     PostStarts starts;
     List<CommentResponse> comments;
+    String thumbnailUrl;
+    Boolean isMobile = false;
 }
