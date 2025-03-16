@@ -32,6 +32,12 @@ import lombok.extern.slf4j.Slf4j;
 public class PostController {
     IPostService postService;
 
+    @PostMapping(value = "create-web-post")
+    public ApiResponse<Void> createWebPost(@RequestBody CreatePostRequest request) {
+        postService.createWebPost(request);
+        return ApiResponse.success(null);
+    }
+
     @PostMapping(value = "create-post", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     ApiResponse<Void> createPost(
             @RequestPart String request, @RequestPart(value = "thumbnail", required = false) MultipartFile thumbnail)

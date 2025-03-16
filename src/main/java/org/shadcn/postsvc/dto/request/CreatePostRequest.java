@@ -28,4 +28,6 @@ public class CreatePostRequest {
     Boolean allowComments;
 
     Boolean isMobile;
+
+    String thumbnailUrl;
 }

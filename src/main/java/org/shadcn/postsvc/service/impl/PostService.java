@@ -49,6 +49,18 @@ public class PostService implements IPostService {
     UploadFileService uploadFileService;
 
     @Override
+    public void createWebPost(CreatePostRequest request) {
+        Set<Tag> tags = handleTags(request.getTags());
+        Post myPost = postMapper.toPost(request);
+        UserProfileResponse author =
+                identityClient.getProfileByUserId(request.getUserId()).getResult();
+        String fullName = UserUtil.buildFullNameWithBuilder(author);
+        myPost.setFullName(fullName);
+        myPost.setTags(tags);
+        postRepository.save(myPost);
+    }
+
+    @Override
     public void createPost(CreatePostRequest request, MultipartFile thumbnail) {
         Set<Tag> tags = handleTags(request.getTags());
         Post myPost = postMapper.toPost(request);

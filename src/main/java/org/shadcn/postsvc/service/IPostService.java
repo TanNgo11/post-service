@@ -14,6 +14,8 @@ public interface IPostService {
 
     void createPost(CreatePostRequest request, MultipartFile thumbnail);
 
+    void createWebPost(CreatePostRequest request);
+
     PostDetailResponse getPostDetailById(Long postId);
 
     PageResponse<PostResponse> getAllPosts(int current, int pageSize);
